@@ -1,0 +1,40 @@
+Initial data;
+
+block Initialize variables{
+  t_1 = 0
+  y_1 = y_initial
+  f_1 = f(t_1, y_1);
+  
+}
+
+block Compute y_2{
+  compute stepsize;
+  FEM [`y_2^0`];
+  Evaluate f [`f_2`];
+  BEM [`y_2`];
+  Evaluate f_2 and save
+}
+n+=1;
+
+PECE:
+block Compute stepsize{
+  compute;
+}
+block Compute y_n{
+  Adams-Bashforth [`y_n^0`];
+  Evaluate f [`f_n`];
+  Adams-Moulton [`y_n`];
+  Re-evaluate f_n and save
+}
+if t>end_time{
+  loop END;
+}
+if delta < ETOL{
+  n+=1;
+  loop PECE;
+}
+else{
+  loop PECE;
+}
+END:
+End;

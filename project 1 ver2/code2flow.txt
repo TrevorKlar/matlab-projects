@@ -1,0 +1,44 @@
+Start;
+
+
+
+Input data;
+
+`f, Jf, end_time, initial_value, theta, h`;
+
+
+
+if theta = 0 or 0.5 {
+
+  for(n=1;n < end_time/h ; n+=1) {
+
+    `g = y(n+1) - y(n) - theta*h*f(t(n), y(n)) - (1-theta)*h*f(t(n), y(n))`;
+
+    `Jg = eye(2) - (1-theta)*h*Jf`;
+
+    `NewtonsMethod(g, Jg)`;
+
+    Append `t(n+1)`, `y(n+1)`, to output arrays;
+
+  }
+
+}
+
+else {
+  for(n=1;n < end_time/h ; n+=1) {
+
+    `y(n+1) = y(n) + h*f(t(n), y(n))`;
+
+    Append `t(n+1)`, `y(n+1)`, to output arrays;
+
+  }
+}
+
+Plot y1 vs t;
+
+Plot y2 vs t;
+
+Plot y1 vs y2;
+
+End;
+
